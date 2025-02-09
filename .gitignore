@@ -1,0 +1,14 @@
+# Node modules
+node_modules/
+
+# Next.js build and export folders
+.next/
+out/
+
+# Logs and temporary files
+*.log
+*.env
+.DS_Store
+
+# Git-related files
+.git/
