@@ -1,6 +1,6 @@
 # My Portfolio
 
-An attempt at making a portfolio using React that is actually interesting without being too much
+An attempt at making a portfolio using React that is actually interesting without being too much. Does it count as vibecoded if im autistically looking at every single line being changed after copy pasting stuff from chatgpt and claude? lol
 
 ## Current features
 1. Terminal style portfolio 
