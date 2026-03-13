@@ -1,6 +1,6 @@
 # My Portfolio
 
-An attempt at making a portfolio that is actually interesting without being too much
+An attempt at making a portfolio using React that is actually interesting without being too much
 
 ## Current features
 1. Terminal style portfolio 
