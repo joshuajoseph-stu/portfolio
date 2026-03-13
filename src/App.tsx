@@ -28,6 +28,7 @@ const FILESYSTEM: Record<string, any> = {
                 type: "file",
                 content: [
                   `# OpsAI 
+                  ....TODO
                   `,
                 ],
               },
@@ -42,7 +43,7 @@ const FILESYSTEM: Record<string, any> = {
           },
           "project2.md": {
             type: "file",
-            content: ["# Project 2", "Description coming soon..."],
+            content: ["# Project 2", "TODO"],
           },
         },
       },
@@ -153,6 +154,9 @@ function App() {
   const [currentCommand, setCurrentCommand] = useState("");
   const [outputLines, setOutputLines] = useState<string[]>([
     "Hi there! I'm Joshua — welcome to my portfolio :)",
+    "WARNING: THIS IS A VERY EARLY WIP, HALF OF THIS STUFF IS EMPTY",
+    "TODO: put actual content in files, reorganize skills (?), add client side AI to help with commands",
+    "",
     "This site works like a terminal: just type commands to explore my work, skills, and more.",
     "Not sure where to start? Type 'help' to see everything you can do.",
     "",
