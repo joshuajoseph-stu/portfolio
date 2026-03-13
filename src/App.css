@@ -1,0 +1,89 @@
+/* App.css */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  font-family: 'Monaco', 'Consolas', monospace;
+  color: #00ff00;
+}
+
+#main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+#terminal {
+  background-color: #000;
+  border: 2px solid #00ff00;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  width: 98%;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+}
+
+#terminal:hover {
+  border-color: #00ff00;
+}
+
+.terminal-header {
+  background-color: #003300;
+  padding: 10px;
+  border-bottom: 1px solid #00ff00;
+  font-size: 14px;
+  color: #00ff00;
+}
+
+.terminal-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.output-area {
+  flex-grow: 1;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.prompt {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#command-input {
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 14px;
+  outline: none;
+  field-sizing: content;
+}
+
+.terminal-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+  background: #000;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+  background-color: #00ff00;
+  border-radius: 2px;
+  border: 1px solid #003300;
+}
