@@ -26,7 +26,10 @@ const FILESYSTEM: Record<string, any> = {
             children: {
               "opsAI.md": {
                 type: "file",
-                content: ["# OpsAI"],
+                content: [
+                  `# OpsAI 
+                  `,
+                ],
               },
             },
           },
