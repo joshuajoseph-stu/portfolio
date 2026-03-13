@@ -7,7 +7,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const src = path.join(__dirname, 'dist');
 const dest = path.join(__dirname, '..', 'portfolio-build');
-const date = new Date().toISOString().slice(0, 10);
+const now = new Date();
+const date = now.toISOString().slice(0, 16).replace('T', ' ');
 
 console.log('Pushing source to portfolio repo...');
 execSync('git add -A', { cwd: __dirname, stdio: 'inherit' });
