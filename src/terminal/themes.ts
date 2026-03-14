@@ -1,4 +1,4 @@
-export type Theme = "green" | "amber" | "blue" | "white";
+export type Theme = "green" | "amber" | "blue" | "white" | "light";
 
 export const THEMES: Record<Theme, { primary: string; background: string; shadow: string }> = {
   green: {
@@ -19,6 +19,11 @@ export const THEMES: Record<Theme, { primary: string; background: string; shadow
   white: {
     primary: "#ffffff",
     background: "#0d0d0d",
+    shadow: "rgba(255, 255, 255, 0.3)",
+  },
+  light: {
+    primary: "#1f1f1f",
+    background: "#c1c1c1",
     shadow: "rgba(255, 255, 255, 0.3)",
   },
 };
