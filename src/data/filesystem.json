@@ -1,0 +1,46 @@
+{
+  "home/joshua": {
+    "type": "dir",
+    "children": {
+      "README.md": {
+        "type": "file",
+        "content": ["# Joshua's Portfolio", "", "Welcome!"]
+      },
+      "projects": {
+        "type": "dir",
+        "children": {
+          "README.md": {
+            "type": "file",
+            "content": ["# Projects", "", "Here are some of the projects I've worked on.", "Use 'ls' to see them all."]
+          },
+          "portfolio.md": {
+            "type": "file",
+            "content": ["# Terminal Portfolio", "A mock terminal built with React + TypeScript."]
+          },
+          "professional": {
+            "type": "dir",
+            "children": {
+              "opsAI.md": {
+                "type": "file",
+                "content": ["# OpsAI", "TODO"]
+              }
+            }
+          }
+        }
+      },
+      "skills": {
+        "type": "dir",
+        "children": {
+          "frontend.md": {
+            "type": "file",
+            "content": ["# Frontend", "- React / TypeScript", "- HTML / CSS", "- Tailwind CSS"]
+          },
+          "backend.md": {
+            "type": "file",
+            "content": ["# Backend", "- Node.js / Express", "- PostgreSQL / MongoDB", "- REST APIs"]
+          }
+        }
+      }
+    }
+  }
+}

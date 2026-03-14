@@ -1,14 +1,27 @@
 /* App.css */
+
+:root {
+  --primary: #00ff00;
+  --background: #000000;
+  --shadow: rgba(0, 255, 0, 0.3);
+}
+
+::selection {
+  background-color: var(--primary);
+  color: var(--background);
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #000;
+  background-color: var(--background);
   font-family: 'Monaco', 'Consolas', monospace;
-  color: #00ff00;
+  color: var(--primary);
 }
 
 #main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -16,10 +29,10 @@ body {
 }
 
 #terminal {
-  background-color: #000;
-  border: 2px solid #00ff00;
+  background-color: var(--background);
+  border: 2px solid var(--primary);
   border-radius: 5px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  box-shadow: 0 0 20px var(--shadow);
   width: 98%;
   height: 95vh;
   display: flex;
@@ -27,47 +40,38 @@ body {
   cursor: text;
 }
 
-#terminal:hover {
-  border-color: #00ff00;
-}
-
-.terminal-header {
-  background-color: #003300;
-  padding: 10px;
-  border-bottom: 1px solid #00ff00;
-  font-size: 14px;
-  color: #00ff00;
-}
-
 .terminal-content {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   padding: 10px;
   overflow-y: auto;
+  height:100%;
 }
 
 .output-area {
-  flex-grow: 1;
   margin-bottom: 10px;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .prompt {
-  color: #00ff00;
+  color: var(--primary);
   font-weight: bold;
 }
 
 .input-area {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
+  flex: 1;
+  min-height: 100px;
 }
 
 #command-input {
   background: transparent;
   border: none;
-  color: #00ff00;
+  color: var(--primary);
   font-family: 'Monaco', 'Consolas', monospace;
   font-size: 14px;
   outline: none;
@@ -79,11 +83,28 @@ body {
 }
 
 .terminal-content::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--background);
 }
 
 .terminal-content::-webkit-scrollbar-thumb {
-  background-color: #00ff00;
+  background-color: var(--primary);
   border-radius: 2px;
-  border: 1px solid #003300;
+  border: 1px solid var(--background);
+}
+
+#copyright {
+  width: 98%;
+}
+
+.copyright-box {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dir-entry {
+  font-weight: bold;
+  filter: brightness(1.3);
 }
