@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import type { OutputLine, Mode } from "./terminal/types";
+import type { Theme } from "./terminal/themes";
 
 import { Landing } from "./components/Landing";
 import { HOME } from "./terminal/filesystem";
@@ -8,7 +9,6 @@ import { executeCommand } from "./terminal/commands";
 import { getCompletions } from "./terminal/completions";
 
 import { applyTheme } from "./terminal/themes";
-import type { Theme } from "./terminal/themes";
 import "./App.css";
 
 const BOOT_SEQUENCE = [
@@ -121,7 +121,7 @@ function App() {
     if (mode !== "terminal") return;
     applyTheme(theme);
     setBooting(true);
-    const delay_amount = 100;
+    const delay_amount = 300;
     for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
       const delay =
         i < 3
@@ -205,7 +205,7 @@ function App() {
           <div id="assistant"></div>
         </>
       )}
-      {mode === "simple" && <div>simple mode coming soon</div>}
+      {mode === "simple" && <div>simple mode coming soon!!</div>}
       <div id="copyright">
         <div className="copyright-box">
           <div>© 2026 Joshua Joseph</div>

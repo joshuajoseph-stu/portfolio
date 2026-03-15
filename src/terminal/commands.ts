@@ -104,7 +104,6 @@ export function executeCommand(
       break;
     case "":
       break;
-
     default:
       print(`Command not found: ${cmd}. Type 'help' for available commands.`, "");
   }
