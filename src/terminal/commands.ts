@@ -1,5 +1,5 @@
 import { resolvePath, resolveFSArg, HOME } from "./filesystem";
-import type { PrintFn, PrintLsFn, SetCwdFn } from "./types";
+import type { PrintFn, PrintLsFn, SetCwdFn, SetModeFn, ClearLinesFn } from "./types";
 import { THEMES, applyTheme } from "./themes";
 import type { Theme } from "./themes";
 
@@ -10,7 +10,9 @@ export function executeCommand(
   print: PrintFn,
   printLs: PrintLsFn,
   setCwd: SetCwdFn,
-  setTheme: (theme: Theme) => void
+  setTheme: (theme: Theme) => void,
+  setMode: SetModeFn,
+  clearLines: ClearLinesFn
 ) {
   const parts = input.trim().split(/\s+/);
   const cmd = parts[0].toLowerCase();
@@ -24,9 +26,10 @@ export function executeCommand(
         "  ls             - List directory contents",
         "  cd <dir>       - Change directory",
         "  cat <file>     - Read a file",
-        "  pwd            - Print working directory",
-        "  clear          - Handled by App",
+        "  pwd            - Print current working directory",
+        "  clear          - Clear the terminal",
         "  history        - Show command history",
+        "  exit           - Return to landing page",
         ""
       );
       break;
@@ -76,11 +79,12 @@ export function executeCommand(
       print(...commandHistory.map((c, i) => `${i + 1}  ${c}`), "");
       break;
 
-      case "theme": {
+    case "theme": {
       if (!arg) {
         print(
           "Available themes:",
           ...Object.keys(THEMES).map((t) => `  ${t}`),
+          "Choose a theme using 'theme <chosen-theme>'",
           ""
         );
         break; 
@@ -94,7 +98,10 @@ export function executeCommand(
       print(`Theme set to '${arg}'.`, "");
       break;
     }
-
+    case "exit":
+      clearLines()
+      setMode('landing')
+      break;
     case "":
       break;
 

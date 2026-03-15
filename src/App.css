@@ -1,17 +1,10 @@
 /* =====================
    TRANSITIONS
    ===================== */
-.no-transition *, .no-transition *::before, .no-transition *::after {
+.no-transition *,
+.no-transition *::before,
+.no-transition *::after {
   transition: none !important;
-}
-
-*, *::before, *::after {
-  transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              text-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* =====================
@@ -35,7 +28,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--background);
-  font-family: 'Monaco', 'Consolas', monospace;
+  font-family: "Monaco", "Consolas", monospace;
   font-size: clamp(18px, 1.1vw, 24px);
   color: var(--primary);
   overflow: hidden;
@@ -59,47 +52,119 @@ body {
 /* =====================
    CRT EFFECTS
    ===================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  *,
+  *::before,
+  *::after {
+    transition:
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      text-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .crt {
+    animation: flicker 8s infinite;
+  }
+
+  .crt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 90%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+    border-radius: inherit;
+  }
+
+  .crt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.06) 3px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @keyframes flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    92.5% {
+      opacity: 0.94;
+    }
+    93% {
+      opacity: 1;
+    }
+    96% {
+      opacity: 1;
+    }
+    96.5% {
+      opacity: 0.96;
+    }
+    97% {
+      opacity: 1;
+    }
+  }
+
+  .output-line {
+    animation: phosphor-fade-in 0.15s ease-out forwards;
+  }
+
+  @keyframes phosphor-fade-in {
+    from {
+      opacity: 0;
+      text-shadow:
+        0 0 8px var(--primary),
+        0 0 20px color-mix(in srgb, var(--primary) 80%, transparent);
+    }
+    to {
+      opacity: 1;
+      text-shadow:
+        0 0 2px var(--primary),
+        0 0 6px color-mix(in srgb, var(--primary) 60%, transparent),
+        1px 0 3px color-mix(in srgb, var(--primary) 20%, transparent),
+        -1px 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+    }
+  }
+
+  #command-input {
+    animation: cursor-blink 1.2s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%,
+    100% {
+      caret-color: var(--primary);
+    }
+    50% {
+      caret-color: transparent;
+    }
+  }
+}
+
 .crt {
   position: relative;
   height: 100%;
   overflow: hidden;
   border-radius: 5px;
-  animation: flicker 8s infinite;
-}
-
-.crt::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 90%, rgba(0,0,0,0.35) 100%);
-  pointer-events: none;
-  z-index: 3;
-  border-radius: inherit;
-}
-
-.crt::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.15) 2px,
-    rgba(0, 0, 0, 0.15) 4px
-  );
-  pointer-events: none;
-  z-index: 2;
-}
-
-@keyframes flicker {
-  0%,   100% { opacity: 1;    }
-  92%         { opacity: 1;    }
-  92.5%       { opacity: 0.94; }
-  93%         { opacity: 1;    }
-  96%         { opacity: 1;    }
-  96.5%       { opacity: 0.96; }
-  97%         { opacity: 1;    }
 }
 
 /* =====================
@@ -158,30 +223,12 @@ body {
 }
 
 .output-line {
-  animation: phosphor-fade-in 0.15s ease-out forwards;
   line-height: 1.6;
 }
 
 .dir-entry {
   font-weight: bold;
   filter: brightness(1.3);
-}
-
-@keyframes phosphor-fade-in {
-  from {
-    opacity: 0;
-    text-shadow:
-      0 0 8px var(--primary),
-      0 0 20px color-mix(in srgb, var(--primary) 80%, transparent);
-  }
-  to {
-    opacity: 1;
-    text-shadow:
-      0 0 2px var(--primary),
-      0 0 6px color-mix(in srgb, var(--primary) 60%, transparent),
-      1px 0 3px color-mix(in srgb, var(--primary) 20%, transparent),
-      -1px 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
-  }
 }
 
 /* =====================
@@ -192,7 +239,8 @@ body {
   font-weight: bold;
 }
 
-#command-input, .prompt {
+#command-input,
+.prompt {
   text-shadow:
     0 0 2px var(--primary),
     0 0 6px color-mix(in srgb, var(--primary) 60%, transparent),
@@ -206,25 +254,19 @@ body {
   align-items: flex-start;
   position: relative;
   flex: 1;
-  min-height: 3rem;
+  min-height: 160px;
 }
 
 #command-input {
   background: transparent;
   border: none;
   color: var(--primary);
-  font-family: 'Monaco', 'Consolas', monospace;
+  font-family: "Monaco", "Consolas", monospace;
   font-size: clamp(18px, 1.1vw, 24px);
   outline: none;
   field-sizing: content;
   caret-shape: block;
   caret-color: var(--primary);
-  animation: cursor-blink 1.2s step-end infinite;
-}
-
-@keyframes cursor-blink {
-  0%, 100% { caret-color: var(--primary); }
-  50%       { caret-color: transparent;   }
 }
 
 /* =====================
@@ -236,7 +278,7 @@ body {
   padding: 0.5rem 1rem;
   box-sizing: border-box;
   font-size: clamp(11px, 0.9vw, 14px);
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .copyright-box {
@@ -286,7 +328,7 @@ body {
   background: transparent;
   border: 1px solid var(--primary);
   color: var(--primary);
-  font-family: 'Monaco', 'Consolas', monospace;
+  font-family: "Monaco", "Consolas", monospace;
   padding: 1.2rem 2rem;
   cursor: pointer;
   display: flex;

@@ -19,3 +19,6 @@ export type PrintLsFn = (entries: { name: string; type: string }[]) => void;
 export type SetCwdFn = (cwd: string) => void;
 
 export type Mode = "landing" | "terminal" | "simple";
+export type SetModeFn = (mode: Mode) => void;
+
+export type ClearLinesFn = () => void

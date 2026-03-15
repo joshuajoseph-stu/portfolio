@@ -51,10 +51,12 @@ function App() {
       { type: "text" as const, content: "" },
     ]);
 
+  const clearLines = () => setOutputLines([]);
+
   const handleCommand = () => {
     print(`${prompt} $ ${currentCommand}`);
     if (currentCommand.trim() === "clear") {
-      setOutputLines([]);
+      clearLines();
     } else {
       executeCommand(
         currentCommand,
@@ -64,6 +66,8 @@ function App() {
         printLs,
         setCwd,
         setTheme,
+        setMode,
+        clearLines,
       );
     }
     setCommandHistory((prev) => [...prev, currentCommand]);
@@ -109,9 +113,15 @@ function App() {
     }
   };
 
+  const handleSetFocus = () => {
+    inputRef.current?.focus();
+  };
+
   useEffect(() => {
+    if (mode !== "terminal") return;
     applyTheme(theme);
-    const delay_amount = 500;
+    setBooting(true);
+    const delay_amount = 100;
     for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
       const delay =
         i < 3
@@ -122,10 +132,13 @@ function App() {
           ...prev,
           { type: "text" as const, content: BOOT_SEQUENCE[i] },
         ]);
-        if (i === BOOT_SEQUENCE.length - 1) setBooting(false);
+        if (i === BOOT_SEQUENCE.length - 1) {
+          setBooting(false);
+          setTimeout(() => handleSetFocus(), 50);
+        }
       }, delay);
     }
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     const el = document.querySelector(".terminal-content");
@@ -145,7 +158,11 @@ function App() {
           <div id="terminal">
             <div className="crt">
               <div className="terminal-content">
-                <div className="output-area">
+                <div
+                  className="output-area"
+                  aria-live="polite"
+                  aria-atomic="false"
+                >
                   {outputLines.map((line, index) => (
                     <div
                       key={index}
@@ -167,6 +184,7 @@ function App() {
                       <input
                         type="text"
                         id="command-input"
+                        aria-label="terminal input"
                         ref={inputRef}
                         value={currentCommand}
                         onChange={(e) => {
