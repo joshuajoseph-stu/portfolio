@@ -17,3 +17,5 @@ export type OutputLine =
 export type PrintFn = (...lines: string[]) => void;
 export type PrintLsFn = (entries: { name: string; type: string }[]) => void;
 export type SetCwdFn = (cwd: string) => void;
+
+export type Mode = "landing" | "terminal" | "simple";

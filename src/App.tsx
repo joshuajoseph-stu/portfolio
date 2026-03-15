@@ -1,45 +1,37 @@
 import { useState, useEffect, useRef } from "react";
-import "./App.css";
-import type { OutputLine } from "./terminal/types";
+
+import type { OutputLine, Mode } from "./terminal/types";
+
+import { Landing } from "./components/Landing";
 import { HOME } from "./terminal/filesystem";
 import { executeCommand } from "./terminal/commands";
 import { getCompletions } from "./terminal/completions";
+
 import { applyTheme } from "./terminal/themes";
 import type { Theme } from "./terminal/themes";
+import "./App.css";
+
+const BOOT_SEQUENCE = [
+  "BIOS v2.1.0 ...",
+  "Initializing memory... OK",
+  "Loading kernel... OK",
+  "Starting joshua-os v1.0.0...",
+  "Hi there! I'm Joshua — welcome to my portfolio :)",
+  "This site works like a terminal: just type commands to explore my work, skills, and more.",
+  "Not sure where to start? Type 'help' to see everything you can do.",
+  "",
+];
 
 function App() {
+  const [mode, setMode] = useState<Mode>("landing");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const [currentCommand, setCurrentCommand] = useState("");
   const [theme, setTheme] = useState<Theme>("green");
-  const [outputLines, setOutputLines] = useState<OutputLine[]>([
-    {
-      type: "text",
-      content: "Hi there! I'm Joshua — welcome to my portfolio :)",
-    },
-    {
-      type: "text",
-      content:
-        "This site works like a terminal: just type commands to explore my work, skills, and more.",
-    },
-    {
-      type: "text",
-      content:
-        "Not sure where to start? Type 'help' to see everything you can do.",
-    },
-    { type: "text", content: "" },
-  ]);
+  const [booting, setBooting] = useState(true);
+  const [outputLines, setOutputLines] = useState<OutputLine[]>([]);
   const [cwd, setCwd] = useState(HOME);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    applyTheme(theme);
-  }, []);
-
-  useEffect(() => {
-    const el = document.querySelector(".terminal-content");
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [outputLines]);
 
   const prompt = `~/home/joshua${cwd === HOME ? "" : "/" + cwd.slice(HOME.length + 1)}`;
 
@@ -117,41 +109,82 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    applyTheme(theme);
+
+    for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
+      const delay = i < 3 ? i * 500 : 1500 + (i - 3) * 2000;
+      setTimeout(() => {
+        setOutputLines((prev) => [
+          ...prev,
+          { type: "text" as const, content: BOOT_SEQUENCE[i] },
+        ]);
+        if (i === BOOT_SEQUENCE.length - 1) setBooting(false);
+      }, delay);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = document.querySelector(".terminal-content");
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [outputLines]);
+
   return (
     <div id="main">
-      <div id="terminal">
-        <div className="terminal-content">
-          <div className="output-area">
-            {outputLines.map((line, index) => (
-              <div
-                key={index}
-                className={`output-line ${line.type === "dir" ? "dir-entry" : ""}`}
-              >
-                {line.content}
+      {mode === "landing" && (
+        <Landing
+          onSelectTerminal={() => setMode("terminal")}
+          onSelectSimple={() => setMode("simple")}
+        />
+      )}
+      {mode === "terminal" && (
+        <>
+          <div id="terminal">
+            <div className="crt">
+              <div className="terminal-content">
+                <div className="output-area">
+                  {outputLines.map((line, index) => (
+                    <div
+                      key={index}
+                      className={`output-line ${line.type === "dir" ? "dir-entry" : ""}`}
+                    >
+                      {line.content}
+                    </div>
+                  ))}
+                </div>
+                {booting ? (
+                  <></>
+                ) : (
+                  <div
+                    className="input-area"
+                    onClick={() => inputRef.current?.focus()}
+                  >
+                    <span className="prompt">
+                      {prompt} →{" "}
+                      <input
+                        type="text"
+                        id="command-input"
+                        ref={inputRef}
+                        value={currentCommand}
+                        onChange={(e) => {
+                          setCurrentCommand(e.target.value);
+                          setHistoryIndex(null);
+                        }}
+                        onKeyDown={handleKeyDown}
+                        spellCheck={false}
+                        autoComplete="off"
+                        disabled={booting}
+                      />
+                    </span>
+                  </div>
+                )}
               </div>
-            ))}
+            </div>
           </div>
-          <div className="input-area" onClick={() => inputRef.current?.focus()}>
-            <span className="prompt">
-              {prompt} →{" "}
-              <input
-                type="text"
-                id="command-input"
-                ref={inputRef}
-                value={currentCommand}
-                onChange={(e) => {
-                  setCurrentCommand(e.target.value);
-                  setHistoryIndex(null);
-                }}
-                onKeyDown={handleKeyDown}
-                spellCheck={false}
-                autoComplete="off"
-              />
-            </span>
-          </div>
-        </div>
-      </div>
-      <div id="assistant"></div>
+          <div id="assistant"></div>
+        </>
+      )}
+      {mode === "simple" && <div>simple mode coming soon</div>}
       <div id="copyright">
         <div className="copyright-box">
           <div>© 2026 Joshua Joseph</div>
