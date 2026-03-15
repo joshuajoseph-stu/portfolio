@@ -111,9 +111,12 @@ function App() {
 
   useEffect(() => {
     applyTheme(theme);
-
+    const delay_amount = 500;
     for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
-      const delay = i < 3 ? i * 500 : 1500 + (i - 3) * 2000;
+      const delay =
+        i < 3
+          ? i * delay_amount
+          : 3 * delay_amount + (i - 3) * (delay_amount * 4);
       setTimeout(() => {
         setOutputLines((prev) => [
           ...prev,
