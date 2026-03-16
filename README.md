@@ -25,3 +25,5 @@ An attempt at making a portfolio using React that is actually interesting withou
 ## Credits:
 1. Favicons: [John Sorrentino, for favicon.io](https://favicon.io/favicon-generator/)
 2. Cursors: [Astropulse, for custom cursors on itch.io](https://astropulse.itch.io/familiar-pixel-cursors)
+
+3. Claude: Coding assistant
