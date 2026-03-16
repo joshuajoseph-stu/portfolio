@@ -155,7 +155,7 @@ function App() {
       crtEnabled ? "enabled" : "disabled",
     );
     setBooting(true);
-    const delay_amount = 0;
+    const delay_amount = import.meta.env.DEV ? 0 : 500;
     for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
       const delay =
         i < 3
