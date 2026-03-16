@@ -53,6 +53,7 @@
 .prompt {
   color: var(--primary);
   font-weight: bold;
+  width: 100%;
 }
 
 .input-area {
@@ -73,4 +74,7 @@
   field-sizing: content;
   caret-shape: block;
   caret-color: var(--primary);
+  max-width: 80%; /* prevents parent from expanding */
+  overflow-x: auto; /* enables horizontal scrolling */
+  white-space: nowrap; /* keeps it single line */
 }

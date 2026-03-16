@@ -66,9 +66,9 @@
     background: repeating-linear-gradient(
       to bottom,
       transparent 0px,
-      transparent 3px,
-      rgba(0, 0, 0, 0.06) 3px,
-      rgba(0, 0, 0, 0.06) 4px
+      transparent 4px,
+      rgba(255, 255, 255, 0.1) 4px,
+      rgba(255, 255, 255, 0.1) 8px
     );
     pointer-events: none;
     z-index: 2;

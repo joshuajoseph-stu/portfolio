@@ -235,7 +235,7 @@ function App() {
                     onClick={() => inputRef.current?.focus()}
                   >
                     <span className="prompt">
-                      {prompt} →{" "}
+                      {`${prompt} → `}
                       <input
                         type="text"
                         id="command-input"

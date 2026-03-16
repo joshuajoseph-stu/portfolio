@@ -1,3 +1,30 @@
+* {
+  cursor:
+    url("/cursors/astro_arrow.png") 0 0,
+    auto;
+}
+
+input,
+textarea {
+  cursor: url("/cursors/astro_pen.png"), text !important;
+}
+
+button,
+button *,
+a,
+a *,
+[role="button"],
+[role="button"] * {
+  cursor:
+    url("/cursors/astro_link.png") 0 0,
+    pointer !important;
+}
+
+.output-line,
+.output-area {
+  cursor: url("/cursors/astro_beam.png"), text !important;
+}
+
 body {
   margin: 0;
   padding: 0;
