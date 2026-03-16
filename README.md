@@ -11,7 +11,7 @@ An attempt at making a portfolio using React that is actually interesting withou
 2. More files, commands
 3. Oh and actually adding content to files xd
 
-##TODO
+## TODO
 1. clean up favicon files
 2. add test cases
 
