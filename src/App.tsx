@@ -211,7 +211,7 @@ function App() {
       {mode === "terminal" && (
         <>
           <div id="terminal">
-            <div className={`crt ${!crtEnabled ? "crt-disabled" : ""}`}>
+            <div className="crt">
               <div className="terminal-content">
                 <div
                   className="output-area"
