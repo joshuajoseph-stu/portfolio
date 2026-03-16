@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: var(--font-size);
+  color: var(--primary);
+  overflow: hidden;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#copyright {
+  margin-top: auto;
+  width: min(98%, 1800px);
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  font-size: clamp(11px, 0.9vw, 14px);
+  opacity: 0.8;
+}
+
+.copyright-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

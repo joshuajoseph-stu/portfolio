@@ -1,0 +1,96 @@
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+#modal {
+  background: var(--background);
+  border: 1px solid var(--primary);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 340px;
+  max-width: 90vw;
+  box-shadow: 0 0 30px var(--shadow);
+}
+
+#modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+#modal-close {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: "Monaco", "Consolas", monospace;
+}
+
+.modal-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.modal-label {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.modal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.modal-btn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.modal-btn.active {
+  background: var(--primary);
+  color: var(--background);
+}
+
+.modal-warning {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  line-height: 1.5;
+  margin-top: 0.3rem;
+}
+
+.modal-font-input {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.5rem;
+  width: 60px;
+  text-align: center;
+  outline: none;
+}
+
+.modal-font-input::-webkit-inner-spin-button,
+.modal-font-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}

@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 
-import type { OutputLine, Mode } from "./terminal/types";
+import type { OutputLine, Mode, TextGlow } from "./terminal/types";
 import type { Theme } from "./terminal/themes";
 
 import { Landing } from "./components/Landing";
+import { SettingsModal } from "./components/SettingsModal";
+
 import { HOME } from "./terminal/filesystem";
 import { executeCommand } from "./terminal/commands";
 import { getCompletions } from "./terminal/completions";
@@ -31,6 +33,14 @@ function App() {
   const [booting, setBooting] = useState(true);
   const [outputLines, setOutputLines] = useState<OutputLine[]>([]);
   const [cwd, setCwd] = useState(HOME);
+
+  const [crtEnabled, setCrtEnabled] = useState(
+    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const [fontSize, setFontSize] = useState(16);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [textGlow, setTextGlow] = useState<TextGlow>("full");
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const prompt = `~/home/joshua${cwd === HOME ? "" : "/" + cwd.slice(HOME.length + 1)}`;
@@ -117,11 +127,35 @@ function App() {
     inputRef.current?.focus();
   };
 
+  const handleFontSizeChange = (size: number) => {
+    setFontSize(size);
+    document.documentElement.style.setProperty("--font-size", `${size}px`);
+  };
+
+  const handleCrtToggle = () => {
+    const next = !crtEnabled;
+    setCrtEnabled(next);
+    document.documentElement.setAttribute(
+      "data-crt",
+      next ? "enabled" : "disabled",
+    );
+  };
+
+  const handleTextGlowChange = (glow: TextGlow) => {
+    setTextGlow(glow);
+    document.documentElement.setAttribute("data-glow", glow);
+  };
+
   useEffect(() => {
     if (mode !== "terminal") return;
     applyTheme(theme);
+    document.documentElement.setAttribute("data-glow", textGlow);
+    document.documentElement.setAttribute(
+      "data-crt",
+      crtEnabled ? "enabled" : "disabled",
+    );
     setBooting(true);
-    const delay_amount = 300;
+    const delay_amount = 0;
     for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
       const delay =
         i < 3
@@ -148,15 +182,36 @@ function App() {
   return (
     <div id="main">
       {mode === "landing" && (
-        <Landing
-          onSelectTerminal={() => setMode("terminal")}
-          onSelectSimple={() => setMode("simple")}
-        />
+        <>
+          <Landing
+            onSelectTerminal={() => setMode("terminal")}
+            onSelectSimple={() => setMode("simple")}
+            onOpenSettings={() => setSettingsOpen(true)}
+            theme={theme}
+          />
+
+          {settingsOpen && (
+            <SettingsModal
+              onClose={() => setSettingsOpen(false)}
+              theme={theme}
+              onThemeChange={(t) => {
+                applyTheme(t);
+                setTheme(t);
+              }}
+              crtEnabled={crtEnabled}
+              onCrtToggle={handleCrtToggle}
+              fontSize={fontSize}
+              onFontSizeChange={handleFontSizeChange}
+              textGlow={textGlow}
+              onTextGlowChange={handleTextGlowChange}
+            />
+          )}
+        </>
       )}
       {mode === "terminal" && (
         <>
           <div id="terminal">
-            <div className="crt">
+            <div className={`crt ${!crtEnabled ? "crt-disabled" : ""}`}>
               <div className="terminal-content">
                 <div
                   className="output-area"

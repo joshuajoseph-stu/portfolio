@@ -21,4 +21,6 @@ export type SetCwdFn = (cwd: string) => void;
 export type Mode = "landing" | "terminal" | "simple";
 export type SetModeFn = (mode: Mode) => void;
 
+export type TextGlow = "full" | "reduced" | "disabled";
+
 export type ClearLinesFn = () => void

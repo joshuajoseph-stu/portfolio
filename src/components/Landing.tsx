@@ -1,9 +1,17 @@
+import type { Theme } from "../terminal/themes";
+
 type Props = {
   onSelectTerminal: () => void;
   onSelectSimple: () => void;
+  onOpenSettings: () => void;
+  theme: Theme;
 };
 
-export function Landing({ onSelectTerminal, onSelectSimple }: Props) {
+export function Landing({
+  onSelectTerminal,
+  onSelectSimple,
+  onOpenSettings,
+}: Props) {
   return (
     <div id="landing">
       <div id="landing-content">
@@ -26,6 +34,13 @@ export function Landing({ onSelectTerminal, onSelectSimple }: Props) {
             <span className="btn-title">Simple mode</span>
             <span className="btn-sub">Just show me the info</span>
           </button>
+        </div>
+        <button id="settings-btn" onClick={onOpenSettings}>
+          ⚙ settings
+        </button>
+        <div id="crt-warning">
+          ⚠ default settings include flashing effects — adjust in settings
+          before entering
         </div>
       </div>
     </div>

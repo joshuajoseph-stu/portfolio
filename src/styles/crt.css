@@ -1,0 +1,197 @@
+.crt {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+/* flicker + scanlines + vignette — user enabled */
+[data-crt="enabled"] .crt {
+  animation: flicker 8s infinite;
+}
+
+[data-crt="enabled"] .crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 90%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+  border-radius: inherit;
+}
+
+[data-crt="enabled"] .crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* flicker + scanlines + vignette — no motion preference */
+@media (prefers-reduced-motion: no-preference) {
+  .crt {
+    animation: flicker 8s infinite;
+  }
+
+  .crt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 90%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+    border-radius: inherit;
+  }
+
+  .crt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.06) 3px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+/* user explicitly disabled — always wins */
+[data-crt="disabled"] .crt {
+  animation: none !important;
+}
+
+[data-crt="disabled"] .crt::before,
+[data-crt="disabled"] .crt::after {
+  display: none !important;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  92.5% {
+    opacity: 0.94;
+  }
+  93% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  96.5% {
+    opacity: 0.96;
+  }
+  97% {
+    opacity: 1;
+  }
+}
+
+/* =====================
+   TEXT GLOW
+   ===================== */
+[data-glow="full"] .terminal-content,
+[data-glow="full"] #command-input,
+[data-glow="full"] .prompt {
+  text-shadow:
+    0 0 2px var(--primary),
+    0 0 6px color-mix(in srgb, var(--primary) 60%, transparent),
+    1px 0 3px color-mix(in srgb, var(--primary) 20%, transparent),
+    -1px 0 3px color-mix(in srgb, var(--primary) 20%, transparent) !important;
+  filter: blur(0.3px) !important;
+}
+
+[data-glow="reduced"] .terminal-content,
+[data-glow="reduced"] #command-input,
+[data-glow="reduced"] .prompt {
+  text-shadow: 0 0 3px color-mix(in srgb, var(--primary) 40%, transparent) !important;
+  filter: none !important;
+}
+
+[data-glow="disabled"] .terminal-content,
+[data-glow="disabled"] #command-input,
+[data-glow="disabled"] .prompt {
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* =====================
+   PHOSPHOR FADE
+   ===================== */
+[data-crt="enabled"] .output-line {
+  animation: phosphor-fade-in 0.15s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .output-line {
+    animation: phosphor-fade-in 0.15s ease-out forwards;
+  }
+}
+
+[data-crt="disabled"] .output-line {
+  animation: none !important;
+}
+
+@keyframes phosphor-fade-in {
+  from {
+    opacity: 0;
+    text-shadow:
+      0 0 8px var(--primary),
+      0 0 20px color-mix(in srgb, var(--primary) 80%, transparent);
+  }
+  to {
+    opacity: 1;
+    text-shadow: inherit;
+  }
+}
+
+/* =====================
+   CURSOR BLINK
+   ===================== */
+[data-crt="enabled"] #command-input {
+  animation: cursor-blink 1.2s step-end infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #command-input {
+    animation: cursor-blink 1.2s step-end infinite;
+  }
+}
+
+[data-crt="disabled"] #command-input {
+  animation: none !important;
+  caret-color: var(--primary) !important;
+}
+
+@keyframes cursor-blink {
+  0%,
+  100% {
+    caret-color: var(--primary);
+  }
+  50% {
+    caret-color: transparent;
+  }
+}
