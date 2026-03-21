@@ -1,10 +1,21 @@
 import { getChildren } from "./filesystem";
 
-const COMMANDS = ["help", "ls", "cd", "cat", "pwd", "clear", "history", "theme"];
+const COMMANDS = [
+  "help",
+  "ls",
+  "cd",
+  "cat",
+  "pwd",
+  "clear",
+  "history",
+  "theme",
+  "settings",
+  "contact",
+];
 
 export function getCompletions(
   input: string,
-  cwd: string
+  cwd: string,
 ): { completions: string[]; completed: string | null } {
   const parts = input.split(/\s+/);
 
@@ -29,7 +40,9 @@ export function getCompletions(
   if (matches.length === 1) {
     const match = matches[0];
     const suffix = match.type === "dir" ? "/" : "";
-    const completedArg = dirPart ? `${dirPart}/${match.name}${suffix}` : `${match.name}${suffix}`;
+    const completedArg = dirPart
+      ? `${dirPart}/${match.name}${suffix}`
+      : `${match.name}${suffix}`;
     return { completions: [], completed: `${cmd} ${completedArg}` };
   }
 

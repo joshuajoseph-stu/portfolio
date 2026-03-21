@@ -78,3 +78,13 @@
   overflow-x: auto; /* enables horizontal scrolling */
   white-space: nowrap; /* keeps it single line */
 }
+
+.terminal-link {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--primary);
+}
+
+.terminal-link:hover {
+  opacity: 0.7;
+}

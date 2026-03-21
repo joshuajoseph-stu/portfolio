@@ -1,6 +1,9 @@
 export type Theme = "green" | "amber" | "blue" | "white" | "light";
 
-export const THEMES: Record<Theme, { primary: string; background: string; shadow: string }> = {
+export const THEMES: Record<
+  Theme,
+  { primary: string; background: string; shadow: string }
+> = {
   green: {
     primary: "#00ff00",
     background: "#001000",
@@ -30,10 +33,10 @@ export const THEMES: Record<Theme, { primary: string; background: string; shadow
 
 function applyFavicon(theme: Theme) {
   const selectors: Record<string, string> = {
-    "link[rel='icon'][type='image/x-icon']":     `/favicon_${theme}.ico`,
-    "link[rel='icon'][sizes='16x16']":           `/favicon_${theme}-16x16.png`,
-    "link[rel='icon'][sizes='32x32']":           `/favicon_${theme}-32x32.png`,
-    "link[rel='apple-touch-icon']":              `/apple-touch-icon_${theme}.png`,
+    "link[rel='icon'][type='image/x-icon']": `/favicon_${theme}.ico`,
+    "link[rel='icon'][sizes='16x16']": `/favicon_${theme}-16x16.png`,
+    "link[rel='icon'][sizes='32x32']": `/favicon_${theme}-32x32.png`,
+    "link[rel='apple-touch-icon']": `/apple-touch-icon_${theme}.png`,
   };
 
   for (const [selector, href] of Object.entries(selectors)) {

@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import type { OutputLine, Mode, TextGlow } from "./terminal/types";
 import type { Theme } from "./terminal/themes";
 
+import { loadSettings, saveSettings } from "./terminal/storage";
+import type { StoredSettings } from "./terminal/storage";
+
 import { Landing } from "./components/Landing";
 import { SettingsModal } from "./components/SettingsModal";
 
@@ -24,22 +27,24 @@ const BOOT_SEQUENCE = [
   "",
 ];
 
+const saved = loadSettings();
+
 function App() {
   const [mode, setMode] = useState<Mode>("landing");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number | null>(null);
   const [currentCommand, setCurrentCommand] = useState("");
-  const [theme, setTheme] = useState<Theme>("green");
   const [booting, setBooting] = useState(true);
   const [outputLines, setOutputLines] = useState<OutputLine[]>([]);
   const [cwd, setCwd] = useState(HOME);
 
-  const [crtEnabled, setCrtEnabled] = useState(
-    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  const [theme, setTheme] = useState<Theme>(saved.theme as Theme);
+  const [fontSize, setFontSize] = useState(saved.fontSize);
+  const [crtEnabled, setCrtEnabled] = useState(saved.crtEnabled);
+  const [textGlow, setTextGlow] = useState<TextGlow>(
+    saved.textGlow as TextGlow,
   );
-  const [fontSize, setFontSize] = useState(16);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [textGlow, setTextGlow] = useState<TextGlow>("full");
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -55,11 +60,14 @@ function App() {
     setOutputLines((prev) => [
       ...prev,
       ...entries.map(({ name, type }) => ({
-        type: (type === "dir" ? "dir" : "text") as OutputLine["type"],
+        type: (type === "dir" ? "dir" : "text") as "dir" | "text",
         content: type === "dir" ? `${name}/` : name,
       })),
       { type: "text" as const, content: "" },
     ]);
+
+  const printLink = (label: string, url: string) =>
+    setOutputLines((prev) => [...prev, { type: "link" as const, label, url }]);
 
   const clearLines = () => setOutputLines([]);
 
@@ -74,15 +82,30 @@ function App() {
         commandHistory,
         print,
         printLs,
+        printLink,
         setCwd,
         setTheme,
         setMode,
         clearLines,
+        setCrt,
+        handleTextGlowChange,
+        handleFontSizeChange,
+        crtEnabled,
+        textGlow,
+        fontSize,
       );
     }
     setCommandHistory((prev) => [...prev, currentCommand]);
     setHistoryIndex(null);
     setCurrentCommand("");
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigator.clipboard.readText().then((text) => {
+      setCurrentCommand((prev) => prev + text);
+      inputRef.current?.focus();
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -130,25 +153,36 @@ function App() {
   const handleFontSizeChange = (size: number) => {
     setFontSize(size);
     document.documentElement.style.setProperty("--font-size", `${size}px`);
+    saveSettings({ fontSize: size });
   };
 
-  const handleCrtToggle = () => {
-    const next = !crtEnabled;
-    setCrtEnabled(next);
+  const setCrt = (val: boolean) => {
+    setCrtEnabled(val);
     document.documentElement.setAttribute(
       "data-crt",
-      next ? "enabled" : "disabled",
+      val ? "enabled" : "disabled",
     );
+    saveSettings({ crtEnabled: val });
   };
+
+  const handleCrtToggle = () => setCrt(!crtEnabled);
 
   const handleTextGlowChange = (glow: TextGlow) => {
     setTextGlow(glow);
     document.documentElement.setAttribute("data-glow", glow);
+    saveSettings({ textGlow: glow });
   };
 
   useEffect(() => {
     if (mode !== "terminal") return;
     applyTheme(theme);
+    document.documentElement.style.setProperty("--font-size", `${fontSize}px`);
+    document.documentElement.setAttribute("data-glow", textGlow);
+    document.documentElement.setAttribute(
+      "data-crt",
+      crtEnabled ? "enabled" : "disabled",
+    );
+
     document.documentElement.setAttribute("data-glow", textGlow);
     document.documentElement.setAttribute(
       "data-crt",
@@ -197,6 +231,7 @@ function App() {
               onThemeChange={(t) => {
                 applyTheme(t);
                 setTheme(t);
+                saveSettings({ theme: t });
               }}
               crtEnabled={crtEnabled}
               onCrtToggle={handleCrtToggle}
@@ -210,7 +245,7 @@ function App() {
       )}
       {mode === "terminal" && (
         <>
-          <div id="terminal">
+          <div id="terminal" onContextMenu={handleContextMenu}>
             <div className="crt">
               <div className="terminal-content">
                 <div
@@ -218,14 +253,30 @@ function App() {
                   aria-live="polite"
                   aria-atomic="false"
                 >
-                  {outputLines.map((line, index) => (
-                    <div
-                      key={index}
-                      className={`output-line ${line.type === "dir" ? "dir-entry" : ""}`}
-                    >
-                      {line.content}
-                    </div>
-                  ))}
+                  {outputLines.map((line, index) => {
+                    if (line.type === "link") {
+                      return (
+                        <div key={index} className="output-line">
+                          <a
+                            href={line.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="terminal-link"
+                          >
+                            {line.label}
+                          </a>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div
+                        key={index}
+                        className={`output-line ${line.type === "dir" ? "dir-entry" : ""}`}
+                      >
+                        {line.content}
+                      </div>
+                    );
+                  })}
                 </div>
                 {booting ? (
                   <></>
