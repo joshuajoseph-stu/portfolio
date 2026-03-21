@@ -4,7 +4,7 @@ import type { OutputLine, Mode, TextGlow } from "./terminal/types";
 import type { Theme } from "./terminal/themes";
 
 import { loadSettings, saveSettings } from "./terminal/storage";
-import type { StoredSettings } from "./terminal/storage";
+// import type { StoredSettings } from "./terminal/storage";
 
 import { Landing } from "./components/Landing";
 import { SettingsModal } from "./components/SettingsModal";
