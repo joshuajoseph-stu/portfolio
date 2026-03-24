@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Deployment stuff
-deploy.js
+# deploy.js

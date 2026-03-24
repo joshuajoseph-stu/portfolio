@@ -14,7 +14,6 @@ import { executeCommand } from "./terminal/commands";
 import { getCompletions } from "./terminal/completions";
 
 import { applyTheme } from "./terminal/themes";
-import "./App.css";
 
 const BOOT_SEQUENCE = [
   "BIOS v2.1.0 ...",
@@ -28,6 +27,17 @@ const BOOT_SEQUENCE = [
 ];
 
 const saved = loadSettings();
+// apply immediately, before first render
+applyTheme(saved.theme as Theme);
+document.documentElement.style.setProperty(
+  "--font-size",
+  `${saved.fontSize}px`,
+);
+document.documentElement.setAttribute("data-glow", saved.textGlow);
+document.documentElement.setAttribute(
+  "data-crt",
+  saved.crtEnabled ? "enabled" : "disabled",
+);
 
 function App() {
   const [mode, setMode] = useState<Mode>("landing");
@@ -174,7 +184,6 @@ function App() {
   };
 
   useEffect(() => {
-    if (mode !== "terminal") return;
     applyTheme(theme);
     document.documentElement.style.setProperty("--font-size", `${fontSize}px`);
     document.documentElement.setAttribute("data-glow", textGlow);
@@ -182,12 +191,18 @@ function App() {
       "data-crt",
       crtEnabled ? "enabled" : "disabled",
     );
+  }, []);
 
-    document.documentElement.setAttribute("data-glow", textGlow);
-    document.documentElement.setAttribute(
-      "data-crt",
-      crtEnabled ? "enabled" : "disabled",
-    );
+  useEffect(() => {
+    if (mode !== "terminal") return;
+    // applyTheme(theme);
+    // document.documentElement.style.setProperty("--font-size", `${fontSize}px`);
+    // document.documentElement.setAttribute("data-glow", textGlow);
+    // document.documentElement.setAttribute(
+    //   "data-crt",
+    //   crtEnabled ? "enabled" : "disabled",
+    // );
+
     setBooting(true);
     const delay_amount = import.meta.env.DEV ? 0 : 500;
     for (let i = 0; i < BOOT_SEQUENCE.length; i++) {
