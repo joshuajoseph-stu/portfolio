@@ -66,18 +66,22 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const commitMsg = await new Promise(resolve => rl.question('Commit message: ', resolve));
 rl.close();
 
-// Update README.md changelog
-console.log('Updating README.md changelog...');
-let readme = fs.readFileSync(readmePath, 'utf-8');
+let newVersion;
+if (commitMsg.trim()) {
+  // Update README.md changelog
+  console.log('Updating README.md changelog...');
+  let readme = fs.readFileSync(readmePath, 'utf-8');
 
-const changelogMatch = readme.match(/## Changelog\n(- v0\.0\.(\d+):.*\n)/);
-const lastMinor = parseInt(changelogMatch[2]);
-const newVersion = `v0.0.${lastMinor + 1}`;
-const newEntry = `- ${newVersion}: ${date} - ${commitMsg}\n`;
-readme = readme.replace('## Changelog\n', `## Changelog\n${newEntry}`);
-fs.writeFileSync(readmePath, readme, 'utf-8');
-console.log(`Added ${newVersion} to changelog.`);
-
+  const changelogMatch = readme.match(/## Changelog\n(- v0\.0\.(\d+):.*\n)/);
+  const lastMinor = parseInt(changelogMatch[2]);
+  newVersion = `v0.0.${lastMinor + 1}`;
+  const newEntry = `- ${newVersion}: ${date} - ${commitMsg}\n`;
+  readme = readme.replace('## Changelog\n', `## Changelog\n${newEntry}`);
+  fs.writeFileSync(readmePath, readme, 'utf-8');
+  console.log(`Added ${newVersion} to changelog.`);
+} else {
+  console.log('No commit message provided, skipping changelog update.');
+}
 // Build
 console.log('Building...');
 execSync('npm run build', { stdio: 'inherit' });
