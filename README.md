@@ -18,6 +18,8 @@ An attempt at making a portfolio using React that is actually interesting withou
 2. add test cases
 
 ## Changelog
+- v0.0.11: 2026/03/23 - fixing issue where changing theme in terminal wouldnt update localstorage
+- v0.0.10: 2026/03/23 - fixing issue where changing theme in terminal wouldnt update localstorage
 - v0.0.9: 2026/03/23 - Fixed deploy.js again lol
 - v0.0.8: 2026/03/23 - Modified deploy script to be more streamlined, cleans up build dir and automatically adds content to README.md
 - v0.0.7: 2026/3/23 - Fixing issues in local storage of settings, fixed flash on first mount, cleaned up folder and files structure and more minor fixes

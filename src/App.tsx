@@ -94,7 +94,7 @@ function App() {
         printLs,
         printLink,
         setCwd,
-        setTheme,
+        handleThemeChange,
         setMode,
         clearLines,
         setCrt,
@@ -158,6 +158,12 @@ function App() {
 
   const handleSetFocus = () => {
     inputRef.current?.focus();
+  };
+
+  const handleThemeChange = (t: Theme) => {
+    applyTheme(t);
+    setTheme(t);
+    saveSettings({ theme: t });
   };
 
   const handleFontSizeChange = (size: number) => {
@@ -244,9 +250,7 @@ function App() {
               onClose={() => setSettingsOpen(false)}
               theme={theme}
               onThemeChange={(t) => {
-                applyTheme(t);
-                setTheme(t);
-                saveSettings({ theme: t });
+                handleThemeChange(t);
               }}
               crtEnabled={crtEnabled}
               onCrtToggle={handleCrtToggle}

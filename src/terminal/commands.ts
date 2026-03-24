@@ -12,7 +12,7 @@ import type {
   TextGlow,
 } from "./types";
 
-import { THEMES, applyTheme } from "./themes";
+import { THEMES } from "./themes";
 import type { Theme } from "./themes";
 
 export function executeCommand(
@@ -23,7 +23,7 @@ export function executeCommand(
   printLs: PrintLsFn,
   printLink: PrintLinkFn,
   setCwd: SetCwdFn,
-  setTheme: (theme: Theme) => void,
+  handleThemeChange: (theme: Theme) => void,
   setMode: SetModeFn,
   clearLines: ClearLinesFn,
   setCrt: SetBoolFn,
@@ -135,8 +135,7 @@ export function executeCommand(
         print(`theme: unknown theme '${arg}'. Run 'theme' to see options.`, "");
         break;
       }
-      applyTheme(arg as Theme);
-      setTheme(arg as Theme);
+      handleThemeChange(arg as Theme);
       print(`Theme set to '${arg}'.`, "");
       break;
     }
