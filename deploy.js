@@ -85,6 +85,7 @@ execSync('npm run build', { stdio: 'inherit' });
 // Clean portfolio-build
 console.log('Cleaning portfolio-build...');
 fs.readdirSync(dest).forEach(file => {
+  if (file === '.git') return;
   fs.rmSync(path.join(dest, file), { recursive: true, force: true });
 });
 
