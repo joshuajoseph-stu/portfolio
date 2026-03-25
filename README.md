@@ -18,6 +18,7 @@ An attempt at making a portfolio using React that is actually interesting withou
 2. add test cases
 
 ## Changelog
+- v0.0.12: 2026/03/24 - Added testing using vitest, with tests for landing, settings page and terminal components.
 - v0.0.11: 2026/03/23 - fixing issue where changing theme in terminal wouldnt update localstorage
 - v0.0.10: 2026/03/23 - fixing issue where changing theme in terminal wouldnt update localstorage
 - v0.0.9: 2026/03/23 - Fixed deploy.js again lol
