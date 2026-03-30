@@ -4,25 +4,54 @@
     "children": {
       "README.md": {
         "type": "file",
-        "content": ["# Joshua's Portfolio", "", "Welcome!"]
+        "src": "/src/content/README.md"
       },
       "projects": {
         "type": "dir",
         "children": {
           "README.md": {
             "type": "file",
-            "content": ["# Projects", "", "Here are some of the projects I've worked on.", "Use 'ls' to see them all."]
+            "src": "/src/content/projects/README.md"
           },
-          "portfolio.md": {
-            "type": "file",
-            "content": ["# Terminal Portfolio", "A mock terminal built with React + TypeScript."]
+          "personal": {
+            "type": "dir",
+            "children": {
+              "portfolio.md": {
+                "type": "file",
+                "src": "/src/content/projects/personal/portfolio.md"
+              }
+            }
           },
           "professional": {
             "type": "dir",
             "children": {
-              "opsAI.md": {
+              "AdhocProjects.md": {
                 "type": "file",
-                "content": ["# OpsAI", "TODO"]
+                "src": "/src/content/projects/professional/AdhocProjects.md"
+              },
+              "AgenticAI.md": {
+                "type": "file",
+                "src": "/src/content/projects/professional/AgenticAI.md"
+              },
+              "CXWiz.md": {
+                "type": "file",
+                "src": "/src/content/projects/professional/CXWiz.md"
+              },
+              "MinorProjects.md": {
+                "type": "file",
+                "src": "/src/content/projects/professional/MinorProjects.md"
+              },
+              "OpsAI.md": {
+                "type": "file",
+                "src": "/src/content/projects/professional/OpsAI.md"
+              },
+              "POCs.md": {
+                "type": "file",
+                "src": "/src/content/projects/professional/POCs.md"
+              },
+              "SDLCAI.md": {
+                "type": "file",
+                "src": "/src/content/projects/professional/SDLCAI.md"
               }
             }
           }
@@ -31,13 +60,21 @@
       "skills": {
         "type": "dir",
         "children": {
-          "frontend.md": {
-            "type": "file",
-            "content": ["# Frontend", "- React / TypeScript", "- HTML / CSS", "- Tailwind CSS"]
-          },
           "backend.md": {
             "type": "file",
-            "content": ["# Backend", "- Node.js / Express", "- PostgreSQL / MongoDB", "- REST APIs"]
+            "src": "/src/content/skills/backend.md"
+          },
+          "devops.md": {
+            "type": "file",
+            "src": "/src/content/skills/devops.md"
+          },
+          "frontend.md": {
+            "type": "file",
+            "src": "/src/content/skills/frontend.md"
+          },
+          "misc.md": {
+            "type": "file",
+            "src": "/src/content/skills/misc.md"
           }
         }
       }

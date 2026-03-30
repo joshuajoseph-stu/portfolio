@@ -10,7 +10,9 @@ describe("resolvePath", () => {
   });
 
   it("resolves a nested file", () => {
-    expect(resolvePath("home/joshua/projects/portfolio.md")).not.toBeNull();
+    expect(
+      resolvePath("home/joshua/projects/personal/portfolio.md"),
+    ).not.toBeNull();
   });
 
   it("returns null for nonexistent path", () => {

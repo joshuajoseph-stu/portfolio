@@ -12,6 +12,7 @@ import type {
   TextGlow,
 } from "./types";
 
+import { getContent } from "./content";
 import { THEMES } from "./themes";
 import type { Theme } from "./themes";
 
@@ -106,13 +107,29 @@ export function executeCommand(
         break;
       }
       const node = resolveFSArg(arg, cwd);
-      if (!node) print(`cat: ${arg}: No such file or directory`, "");
-      else if (node.type === "dir") print(`cat: ${arg}: Is a directory`, "");
-      else {
+      if (!node) {
+        print(`cat: ${arg}: No such file or directory`, "");
+        break;
+      }
+      if (node.type === "dir") {
+        print(`cat: ${arg}: Is a directory`, "");
+        break;
+      }
+
+      if (node.src) {
+        const text = getContent(node.src);
+        if (!text) {
+          print(`cat: ${arg}: Failed to load file`, "");
+          break;
+        }
+        print(...text.split("\n"), "");
+      } else if (node.content) {
         const lines = Array.isArray(node.content)
           ? node.content
           : node.content.split("\n");
         print(...lines, "");
+      } else {
+        print(`cat: ${arg}: No content found`, "");
       }
       break;
     }

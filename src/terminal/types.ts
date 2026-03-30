@@ -1,6 +1,7 @@
 export type FileNode = {
   type: "file";
-  content: string | string[];
+  src?: string;
+  content?: string | string[];
 };
 
 export type DirNode = {
