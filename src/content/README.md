@@ -1,1 +1,1 @@
-re
+Hi, welcome to my projects! You will find write-ups of the projects I've worked on, including projects I've led end to end, and also ones that I've done small parts of. I will also be mentioning some POCs which were notable

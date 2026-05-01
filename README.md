@@ -18,6 +18,7 @@ An attempt at making a portfolio using React that is actually interesting withou
 2. add test cases
 
 ## Changelog
+- v0.0.15: 2026/04/30 - updating readme, irl stuff was crazy last month
 - v0.0.14: 2026/03/29 - restructuring filesystem.json and md files, making it easier to add content... eventually
 - v0.0.13: 2026/03/29 - restructured filesystem.json, and file structure in code. easier to add files now hopefully
 - v0.0.12: 2026/03/24 - Added testing using vitest, with tests for landing, settings page and terminal components.

@@ -20,6 +20,11 @@ const commitMsg = await new Promise(resolve => rl.question('Commit message: ', r
 rl.close();
 
 let newVersion;
+
+// Test
+console.log('Running tests...');
+execSync('npm run test:run', { cwd: __dirname, stdio: 'inherit' });
+
 if (commitMsg.trim()) {
   // Update README.md changelog
   console.log('Updating README.md changelog...');
@@ -35,10 +40,6 @@ if (commitMsg.trim()) {
 } else {
   console.log('No commit message provided, skipping changelog update.');
 }
-
-// Test
-console.log('Running tests...');
-execSync('npm run test:run', { cwd: __dirname, stdio: 'inherit' });
 
 // Build
 console.log('Building...');
